@@ -1,16 +1,18 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/appStore';
 import { useScenario } from '../../hooks/useScenario';
-import { useEffect, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 export const BreakingNews = () => {
   const content = useAppStore((state) => state.content);
   const alerts = useAppStore((state) => state.alerts);
   const scenarioMode = useAppStore((state) => state.scenarioMode);
-  const { activeEvents, activeInsights } = useScenario();
-  const [currentBreaking, setCurrentBreaking] = useState<any>(null);
+  const { activeEvents } = useScenario();
+  const [dismissed, setDismissed] = useState(false);
+  const [lastItemId, setLastItemId] = useState<string | null>(null);
   
-  useEffect(() => {
+  // Use useMemo to compute breaking item without causing infinite loops
+  const currentBreaking = useMemo(() => {
     // Priority: Scenario events > Critical alerts > Urgent content
     let breakingItem = null;
     
@@ -42,10 +44,19 @@ export const BreakingNews = () => {
       }
     }
     
-    setCurrentBreaking(breakingItem);
-  }, [content, alerts, scenarioMode, activeEvents, activeInsights]);
+    return breakingItem;
+  }, [content.length, alerts.length, scenarioMode, activeEvents.length]);
+
+  // Reset dismissed state when a new item appears
+  useEffect(() => {
+    if (currentBreaking && currentBreaking.id !== lastItemId) {
+      setDismissed(false);
+      setLastItemId(currentBreaking.id);
+    }
+  }, [currentBreaking?.id, lastItemId]);
   
-  if (!currentBreaking) return null;
+  // Don't show if no breaking news or if user dismissed it
+  if (!currentBreaking || dismissed) return null;
   
   return (
     <AnimatePresence>
@@ -123,7 +134,7 @@ export const BreakingNews = () => {
               
               {/* Close button */}
               <button
-                onClick={() => setCurrentBreaking(null)}
+                onClick={() => setDismissed(true)}
                 className="flex-shrink-0 text-white hover:text-red-200 transition-colors"
               >
                 ✕
