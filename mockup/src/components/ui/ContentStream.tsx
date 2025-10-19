@@ -24,19 +24,21 @@ export const ContentStream = () => {
   }, [content, scenarioMode, activeEvents]);
   
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/95 to-transparent p-6 pointer-events-none">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-gray-400 text-sm font-medium flex items-center space-x-2">
-            <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/98 to-transparent p-4 pb-6 pointer-events-none z-40">
+      <div className="max-w-full px-4">
+        <div className="flex items-center justify-between mb-3 pointer-events-auto">
+          <h3 className="text-white text-base font-bold flex items-center space-x-2 bg-red-600 px-4 py-2 rounded-lg">
+            <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
             <span>LIVE INTELLIGENCE STREAM</span>
           </h3>
-          <div className="text-xs text-gray-500">{streamItems.length} items</div>
+          <div className="text-sm text-gray-300 bg-gray-800/80 px-3 py-2 rounded-lg">
+            {streamItems.length} active items
+          </div>
         </div>
         
-        <div className="flex space-x-4 overflow-x-hidden">
+        <div className="flex space-x-4 overflow-x-auto pb-2 scrollbar-hide">
           <AnimatePresence mode="popLayout">
-            {streamItems.slice(0, 6).map((item, index) => (
+            {streamItems.slice(0, 8).map((item, index) => (
               <StreamItem key={item.id} item={item} index={index} />
             ))}
           </AnimatePresence>
@@ -70,16 +72,16 @@ const StreamItem = ({ item, index }: { item: any; index: number }) => {
   
   return (
     <motion.div
-      initial={{ opacity: 0, x: -50, scale: 0.9 }}
-      animate={{ opacity: 1, x: 0, scale: 1 }}
-      exit={{ opacity: 0, x: 50, scale: 0.9 }}
-      transition={{ delay: index * 0.1 }}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 50, scale: 0.9 }}
+      transition={{ delay: index * 0.05 }}
       className={`
-        flex-shrink-0 w-80 rounded-lg overflow-hidden pointer-events-auto cursor-pointer
-        ${isBreaking ? 'ring-2 ring-red-500' : ''}
-        ${isScenario ? 'ring-2 ring-yellow-500' : ''}
-        backdrop-blur-sm bg-black/80 border border-gray-700
-        hover:border-gray-500 transition-all hover:scale-105
+        flex-shrink-0 w-96 rounded-xl overflow-hidden pointer-events-auto cursor-pointer
+        ${isBreaking ? 'ring-4 ring-red-500 shadow-2xl shadow-red-500/50' : ''}
+        ${isScenario ? 'ring-4 ring-yellow-500 shadow-2xl shadow-yellow-500/50' : ''}
+        backdrop-blur-lg bg-gradient-to-br from-gray-900 to-black border-2 border-gray-600
+        hover:border-blue-500 transition-all hover:scale-105 hover:shadow-2xl
       `}
     >
       {/* Breaking/Scenario badge */}
@@ -92,24 +94,38 @@ const StreamItem = ({ item, index }: { item: any; index: number }) => {
       
       {/* TV Screenshot */}
       {tvScreenshot && (
-        <div className="relative h-40 bg-gradient-to-br from-blue-900 to-purple-900 overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center p-4">
-              <div className="text-4xl mb-2">{platformIcons[item.platformId]}</div>
-              <div className="text-white text-sm font-medium mb-1">{item.source}</div>
-              <div className="text-blue-300 text-xs">LIVE</div>
+        <div className="relative h-48 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 overflow-hidden">
+          {/* Scanlines effect */}
+          <div className="absolute inset-0 opacity-10 bg-gradient-to-b from-transparent via-white to-transparent animate-scan"></div>
+          
+          {/* Main content */}
+          <div className="absolute inset-0 flex items-center justify-center p-4">
+            <div className="text-center">
+              <div className="text-6xl mb-3 animate-pulse">{platformIcons[item.platformId]}</div>
+              <div className="text-white text-lg font-bold mb-2 drop-shadow-lg">{item.source}</div>
+              <div className="bg-red-600 text-white text-sm font-bold px-4 py-1 rounded-full inline-flex items-center space-x-2">
+                <span className="w-2 h-2 bg-white rounded-full animate-ping"></span>
+                <span>BROADCASTING LIVE</span>
+              </div>
             </div>
           </div>
-          {/* Overlay text/chyron */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
-            <div className="text-white text-xs font-medium line-clamp-2">
-              {item.title}
+          
+          {/* Bottom chyron/ticker */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/95 to-transparent p-3">
+            <div className="text-white text-sm font-bold line-clamp-2 drop-shadow-lg">
+              🔴 {item.title}
             </div>
           </div>
-          {/* Time indicator */}
-          <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
-            <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+          
+          {/* Top corner LIVE badge */}
+          <div className="absolute top-3 right-3 bg-red-600 text-white text-sm font-black px-3 py-1.5 rounded shadow-lg flex items-center space-x-2">
+            <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
             <span>LIVE</span>
+          </div>
+          
+          {/* Time stamp */}
+          <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded">
+            {new Date(item.timestamp).toLocaleTimeString()}
           </div>
         </div>
       )}
@@ -136,12 +152,13 @@ const StreamItem = ({ item, index }: { item: any; index: number }) => {
             
             {/* Speech-to-text segment */}
             {isSpeech && item.description && (
-              <div className="bg-gray-800/50 rounded p-2 mb-2 border-l-2 border-blue-500">
-                <div className="flex items-center space-x-1 mb-1">
-                  <span className="text-xs text-blue-400">💬 Transcript</span>
+              <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-lg p-3 mb-2 border-l-4 border-blue-400">
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="text-sm text-blue-300 font-bold">💬 TRANSCRIPT</span>
+                  <span className="text-xs text-gray-400">Speech-to-Text</span>
                 </div>
-                <p className="text-gray-300 text-xs leading-relaxed line-clamp-3 italic">
-                  "{item.description}"
+                <p className="text-gray-200 text-sm leading-relaxed line-clamp-3 italic">
+                  <span className="text-blue-400 text-lg">"</span>{item.description}<span className="text-blue-400 text-lg">"</span>
                 </p>
               </div>
             )}
