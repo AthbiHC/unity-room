@@ -4,6 +4,8 @@ import { NetworkGraph } from './components/visualizations/NetworkGraph';
 import { HUD } from './components/ui/HUD';
 import { AlertFeed } from './components/ui/AlertFeed';
 import { PlatformDetails } from './components/ui/PlatformDetails';
+import { ContentStream } from './components/ui/ContentStream';
+import { BreakingNews } from './components/ui/BreakingNews';
 import { useDataStream } from './hooks/useDataStream';
 import { useAppStore } from './store/appStore';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
@@ -57,6 +59,8 @@ function App() {
       <HUD />
       <AlertFeed />
       <PlatformDetails />
+      <ContentStream />
+      <BreakingNews />
       
       {/* Loading indicator */}
       <LoadingScreen />

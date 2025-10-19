@@ -34,25 +34,91 @@ export interface Alert {
   platforms: string[];
 }
 
-// Sample content templates
+// Sample content templates with speech-to-text
 const contentTemplates = {
   tv: [
-    { title: 'Breaking: Parliament session on economic reforms', titleArabic: 'عاجل: جلسة البرلمان حول الإصلاحات الاقتصادية', urgent: true },
-    { title: 'Minister discusses digital transformation strategy', titleArabic: 'الوزير يناقش استراتيجية التحول الرقمي', urgent: false },
-    { title: 'Oil prices impact on Kuwait economy analyzed', titleArabic: 'تحليل تأثير أسعار النفط على الاقتصاد الكويتي', urgent: false },
-    { title: 'New infrastructure projects announced', titleArabic: 'الإعلان عن مشاريع بنية تحتية جديدة', urgent: true },
+    { 
+      title: 'Breaking: Parliament session on economic reforms', 
+      titleArabic: 'عاجل: جلسة البرلمان حول الإصلاحات الاقتصادية', 
+      urgent: true,
+      description: 'The minister stated: We are committed to implementing comprehensive economic reforms that will boost growth and create opportunities for all citizens.'
+    },
+    { 
+      title: 'Minister discusses digital transformation strategy', 
+      titleArabic: 'الوزير يناقش استراتيجية التحول الرقمي', 
+      urgent: false,
+      description: 'Kuwait will invest $2 billion in digital infrastructure over the next three years, making us a regional leader in technology.'
+    },
+    { 
+      title: 'Oil prices surge to $95 per barrel', 
+      titleArabic: 'أسعار النفط ترتفع إلى 95 دولار للبرميل', 
+      urgent: true,
+      description: 'OPEC+ production cuts have led to a significant increase in oil prices, benefiting Kuwait\'s economy with an expected $3 billion in additional revenue.'
+    },
+    { 
+      title: 'New infrastructure projects worth $5 billion announced', 
+      titleArabic: 'الإعلان عن مشاريع بنية تحتية بقيمة 5 مليار دولار', 
+      urgent: true,
+      description: 'The government has approved major infrastructure projects including a new metro line, hospital expansion, and smart city initiatives.'
+    },
+    {
+      title: 'Kuwait signs strategic partnership with tech giant',
+      titleArabic: 'الكويت توقع شراكة استراتيجية مع عملاق تقني',
+      urgent: true,
+      description: 'This partnership will bring cutting-edge AI and cloud computing capabilities to Kuwait, supporting our Vision 2035 digital transformation goals.'
+    },
   ],
   government: [
-    { title: 'KUNA: New commercial licensing regulations', titleArabic: 'كونا: لوائح ترخيص تجارية جديدة', urgent: true },
-    { title: 'Central Bank announces interest rate decision', titleArabic: 'البنك المركزي يعلن قرار سعر الفائدة', urgent: true },
-    { title: 'Ministry of Health: New health initiative', titleArabic: 'وزارة الصحة: مبادرة صحية جديدة', urgent: false },
-    { title: 'Parliament approves budget amendments', titleArabic: 'البرلمان يوافق على تعديلات الميزانية', urgent: true },
+    { 
+      title: 'KUNA: New commercial licensing regulations effective immediately', 
+      titleArabic: 'كونا: لوائح ترخيص تجارية جديدة سارية فوراً', 
+      urgent: true,
+      description: 'Ministry of Commerce announces simplified 24-hour licensing process for startups and SMEs.'
+    },
+    { 
+      title: 'Central Bank maintains interest rate at 4.25%', 
+      titleArabic: 'البنك المركزي يثبت سعر الفائدة عند 4.25٪', 
+      urgent: true,
+      description: 'Decision based on stable inflation and strong economic growth projections of 3.8% for 2025.'
+    },
+    { 
+      title: 'Ministry of Health launches AI diagnostic system', 
+      titleArabic: 'وزارة الصحة تطلق نظام تشخيص بالذكاء الاصطناعي', 
+      urgent: false,
+      description: 'New AI system to reduce diagnosis time by 60% and improve accuracy across 8 major hospitals.'
+    },
+    { 
+      title: 'Parliament approves $68 billion budget', 
+      titleArabic: 'البرلمان يوافق على ميزانية 68 مليار دولار', 
+      urgent: true,
+      description: 'Budget includes record spending on education, healthcare, and infrastructure development.'
+    },
   ],
   twitter: [
-    { title: '@almessryoon: Discussing economic outlook for Q4', titleArabic: 'نناقش التوقعات الاقتصادية للربع الرابع', urgent: false },
-    { title: '@MOIKuwait: Traffic updates for major roads', titleArabic: 'تحديثات المرور للطرق الرئيسية', urgent: false },
-    { title: '#Kuwait trending: Citizens debate new policy', titleArabic: 'مواطنون يناقشون السياسة الجديدة', urgent: false },
-    { title: '@qabas: Breaking news alert shared', titleArabic: 'تنبيه أخبار عاجلة', urgent: true },
+    { 
+      title: '@almessryoon: Q4 economic outlook shows strong growth potential', 
+      titleArabic: 'التوقعات الاقتصادية للربع الرابع تظهر إمكانات نمو قوية', 
+      urgent: false,
+      description: 'Oil revenues up 12%, non-oil sector expanding 4.2%. Kuwait poised for strongest quarter in 3 years.'
+    },
+    { 
+      title: '@MOIKuwait: Heavy traffic on Gulf Road due to construction', 
+      titleArabic: 'ازدحام مروري على طريق الخليج بسبب أعمال إنشائية', 
+      urgent: false,
+      description: 'Alternative routes recommended via Fourth Ring Road. Expected delays 45-60 minutes during peak hours.'
+    },
+    { 
+      title: '#Kuwait trending: 45K tweets discussing new startup fund', 
+      titleArabic: 'مناقشات حول صندوق الشركات الناشئة الجديد', 
+      urgent: false,
+      description: 'Mixed reactions: 68% positive, 32% seeking more transparency on selection criteria.'
+    },
+    { 
+      title: '@qabas: BREAKING - Major announcement expected from PM office', 
+      titleArabic: 'عاجل - إعلان مهم متوقع من مكتب رئيس الوزراء', 
+      urgent: true,
+      description: 'Sources suggest announcement related to Vision 2035 accelerat acceleration initiatives.'
+    },
   ],
   'digital-news': [
     { title: 'Al Qabas: Investigation into public procurement', titleArabic: 'القبس: تحقيق في المشتريات العامة', urgent: false },
@@ -61,14 +127,44 @@ const contentTemplates = {
     { title: 'Arab Times: Startups secure funding', titleArabic: 'عرب تايمز: شركات ناشئة تحصل على تمويل', urgent: false },
   ],
   podcasts: [
-    { title: 'Business Q8: Interview with NBK CEO', titleArabic: 'بزنس الكويت: مقابلة مع رئيس NBK', urgent: false },
-    { title: 'Startup Kuwait: Success story of local founder', titleArabic: 'ستارت اب الكويت: قصة نجاح مؤسس محلي', urgent: false },
-    { title: 'Market Pulse: Stock market weekly review', titleArabic: 'نبض السوق: مراجعة البورصة الأسبوعية', urgent: false },
+    { 
+      title: 'Business Q8: NBK CEO on digital banking revolution', 
+      titleArabic: 'بزنس الكويت: رئيس NBK عن ثورة الخدمات المصرفية الرقمية', 
+      urgent: false,
+      description: 'We\'re investing $500M in digital transformation. By 2026, 80% of transactions will be digital, with AI-powered services.'
+    },
+    { 
+      title: 'Startup Kuwait: From idea to $10M valuation in 18 months', 
+      titleArabic: 'ستارت اب الكويت: من فكرة إلى تقييم 10 مليون دولار في 18 شهراً', 
+      urgent: false,
+      description: 'Local founder shares journey: Starting with just 3 employees, now serving 50K customers across GCC with innovative fintech solution.'
+    },
+    { 
+      title: 'Market Pulse: Tech sector leads weekly gains', 
+      titleArabic: 'نبض السوق: قطاع التكنولوجيا يقود المكاسب الأسبوعية', 
+      urgent: false,
+      description: 'Analyst predicts: Tech sector will outperform market by 15-20% this year as digital transformation accelerates.'
+    },
   ],
   radio: [
-    { title: 'Marina FM: Listener calls on traffic issues', titleArabic: 'مارينا: اتصالات المستمعين حول مشاكل المرور', urgent: false },
-    { title: 'Kuwait FM: Morning show discusses education', titleArabic: 'الكويت اف ام: برنامج صباحي يناقش التعليم', urgent: false },
-    { title: 'Radio Kuwait: News bulletin update', titleArabic: 'إذاعة الكويت: تحديث نشرة الأخبار', urgent: false },
+    { 
+      title: 'Marina FM: Citizens call in about high living costs', 
+      titleArabic: 'مارينا: مواطنون يتصلون بشأن ارتفاع تكاليف المعيشة', 
+      urgent: false,
+      description: 'Caller says: Grocery prices up 8% this year. We need government intervention to stabilize prices for essential goods.'
+    },
+    { 
+      title: 'Kuwait FM: Education minister addresses teacher shortage', 
+      titleArabic: 'الكويت اف ام: وزير التربية يتحدث عن نقص المعلمين', 
+      urgent: false,
+      description: 'Minister live on air: Hiring 500 new teachers this year, with focus on STEM subjects and English language instruction.'
+    },
+    { 
+      title: 'Radio Kuwait: Breaking - Major announcement from Parliament', 
+      titleArabic: 'إذاعة الكويت: عاجل - إعلان مهم من البرلمان', 
+      urgent: true,
+      description: 'Parliament has just voted to approve new economic stimulus package worth $2.5 billion.'
+    },
   ],
   print: [
     { title: 'Al Qabas Print: Front page - Economic reform package', titleArabic: 'القبس المطبوعة: الصفحة الأولى - حزمة إصلاح اقتصادي', urgent: false },
